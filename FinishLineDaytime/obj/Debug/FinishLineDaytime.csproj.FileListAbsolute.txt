@@ -1,0 +1,5 @@
+/Users/cliffc/projects/finishLineDaytime/FinishLineDaytime/bin/Debug/FinishLineDaytime.exe
+/Users/cliffc/projects/finishLineDaytime/FinishLineDaytime/bin/Debug/FinishLineDaytime.pdb
+/Users/cliffc/projects/finishLineDaytime/FinishLineDaytime/obj/Debug/FinishLineDaytime.csprojAssemblyReference.cache
+/Users/cliffc/projects/finishLineDaytime/FinishLineDaytime/obj/Debug/FinishLineDaytime.exe
+/Users/cliffc/projects/finishLineDaytime/FinishLineDaytime/obj/Debug/FinishLineDaytime.pdb

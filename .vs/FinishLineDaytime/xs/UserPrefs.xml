@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{304D729F-5974-4C3F-A4EF-B91B684B1F0A}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="FinishLineDaytime/Program.cs">
+    <Files>
+      <File FileName="FinishLineDaytime/Program.cs" Line="290" Column="16" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="FinishLineDaytime" expanded="True">
+            <Node name="FinishLineDaytime" expanded="True">
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.FinishLineDaytime PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../../../FinishLineDaytime/Program.cs" line="124" offsetX="-1" offsetY="-1" expression="counter" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|anycpu" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
