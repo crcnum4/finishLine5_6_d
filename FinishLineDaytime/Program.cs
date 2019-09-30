@@ -186,17 +186,18 @@ namespace FinishLineDaytime
         private readonly int[] VALUES = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
         private readonly string[] MARKER_NAMES = new string[] { "1", "2", "3" };
 
-        public int players;
+        public int numPlayers;
         public Die redDie;
         public Die blackDie;
         public Deck deck;
         public Player player1;
+        public Player[] players;
         private Random rand = new Random();
         public bool noWinner = true;
 
-        public FinishLine(int players, string player1Name)
+        public FinishLine(int numPlayers, string player1Name)
         {
-            this.players = players;
+            this.numPlayers = numPlayers;
             this.player1 = new Player(player1Name, this.MARKER_NAMES);
             this.redDie = new Die(6, true);
             this.blackDie = new Die(6, false);
@@ -208,7 +209,7 @@ namespace FinishLineDaytime
             this.blackDie.Roll(this.rand);
         }
 
-        public void DisplayBoard()
+        private void DisplayBoard()
         {
             Console.Clear();
             string master = "";
@@ -241,7 +242,7 @@ namespace FinishLineDaytime
             Console.WriteLine(master);
         }
 
-        public void ValidateCard(int position)
+        private void ValidateCard(int position)
         {
             if (RESTRICTED_VALUES.Contains(this.deck.cards[position].val))
             {
@@ -262,7 +263,7 @@ namespace FinishLineDaytime
             }
         }
 
-        public void ValidateDeck()
+        private void ValidateDeck()
         {
             // check first and last 3 cards for restricted values. swap with a valid card from the center.
             int[] positions = new int[] { 0, 1, 2, 51, 52, 53 };
@@ -272,7 +273,7 @@ namespace FinishLineDaytime
             }
         }
 
-        public void Turn(Player player)
+        private void Turn(Player player)
         {
             DisplayBoard();
             string master = "";
@@ -290,31 +291,44 @@ namespace FinishLineDaytime
             DisplayBoard();
         }
 
-        public int chooseMarker(string dieString, string master)
+        private int chooseMarker(string dieString, string master)
         {
             Console.WriteLine(master);
             Console.WriteLine("Choose marker(123) for {0} die", dieString);
             return Convert.ToInt32(Console.ReadLine()) - 1;
         }
 
-        public void Round()
+        private Player Round()
         {
             //TODO loop through players
             this.Turn(this.player1);
+            if (didWin(this.player1))
+            {
+                return this.player1;
+            }
             //this.Turn(this.player2);
             //this.Turn(this.player3);
+            return null;
         }
 
         public void PlayGame()
         {
             while (this.noWinner)
             {
-                this.Round();
-                // break;
+                Player winner = this.Round();
+                if ( winner != null)
+                {
+                    Console.WriteLine("{0} has won!!! yay.", winner.name);
+                    break;
+                }
             }
         }
 
-        public void isWinner()
+        private bool didWin(Player player)
+        {
+            return (player.hasMarkersAt(53) == "123");
+        }
+
     }
 
     class MainClass
