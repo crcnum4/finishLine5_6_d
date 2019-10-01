@@ -171,10 +171,6 @@ namespace FinishLineDaytime
             return master;
         }
 
-        //public int findIndex(string name)
-        //{
-            
-        //}
     }
 
     public class FinishLine
@@ -186,19 +182,22 @@ namespace FinishLineDaytime
         private readonly int[] VALUES = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
         private readonly string[] MARKER_NAMES = new string[] { "1", "2", "3" };
 
-        public int numPlayers;
         public Die redDie;
         public Die blackDie;
         public Deck deck;
-        public Player player1;
+        public int numPlayers;
         public Player[] players;
         private Random rand = new Random();
         public bool noWinner = true;
 
-        public FinishLine(int numPlayers, string player1Name)
+        public FinishLine(int numPlayers, string[] playerNames)
         {
             this.numPlayers = numPlayers;
-            this.player1 = new Player(player1Name, this.MARKER_NAMES);
+            this.players = new Player[numPlayers];
+            for (var count = 0; count < playerNames.Length; count++)
+            {
+                this.players[count] = new Player(playerNames[count], MARKER_NAMES);
+            }
             this.redDie = new Die(6, true);
             this.blackDie = new Die(6, false);
             this.deck = new Deck(this.SUITS, this.VALUES, NUM_JOKERS);
@@ -209,34 +208,66 @@ namespace FinishLineDaytime
             this.blackDie.Roll(this.rand);
         }
 
+        private void InitializePlayerRow(string[] playerRow)
+        {
+            for (int count = 0; count < players.Length; count++)
+            {
+                playerRow[count] = "\t";
+            }
+        }
+
+        private void addToPlayerRow(string[] playerRow, int position, string pre, string post)
+        {
+            for (int count = 0; count < players.Length; count++)
+            {
+                playerRow[count] += pre + this.players[count].hasMarkersAt(position) + post;
+            }
+        }
+
         private void DisplayBoard()
         {
             Console.Clear();
             string master = "";
             string cardRow = "\t";
-            string playerRow = "\t";
-            cardRow += "Player1";
-            playerRow += this.player1.hasMarkersAt(-1) + "\t";
-            master += cardRow + "\n" + playerRow + "\n\n";
+            string[] playerRow = new string[this.numPlayers];
+            InitializePlayerRow(playerRow);
+            foreach (var player in players)
+            {
+                cardRow += player.name + "\t";
+            }
+            for (int count = 0; count < players.Length; count++)
+            {
+                playerRow[0] += "" + this.players[count].hasMarkersAt(-1) + "\t";
+            }
+            //addToPlayerRow(playerRow, -1, "", "\t");
+            master += cardRow + "\n" + playerRow[0] + "\n\n";
             cardRow = "\t";
-            playerRow = "\t";
+            InitializePlayerRow(playerRow);
 
             int counter = 0;
             foreach (Card card in this.deck.cards)
             {
                 cardRow += "[" + card.Display() + "]";
-                playerRow += " " + this.player1.hasMarkersAt(counter) + " ";
+                addToPlayerRow(playerRow, counter, " ", " ");
                 counter++;
                 if (counter % 9 == 0)
                 {
-                    master += cardRow + "\n" + playerRow + "\n\n";
+                    master += cardRow + "\n";
+                    foreach(string row in playerRow)
+                    {
+                        master += row + "\n";
+                    }
+                    master += "\n";
                     cardRow = "\t";
-                    playerRow = "\t";
+                    InitializePlayerRow(playerRow);
                 }
                 else
                 {
                     cardRow += "\t";
-                    playerRow += "\t";
+                    for (int count = 0; count < players.Length; count++)
+                    {
+                        playerRow[count] += "\t";
+                    }
                 }
             }
             Console.WriteLine(master);
@@ -301,13 +332,14 @@ namespace FinishLineDaytime
         private Player Round()
         {
             //TODO loop through players
-            this.Turn(this.player1);
-            if (didWin(this.player1))
+            foreach (var player in players)
             {
-                return this.player1;
+                this.Turn(player);
+                if (didWin(player))
+                {
+                    return player;
+                }
             }
-            //this.Turn(this.player2);
-            //this.Turn(this.player3);
             return null;
         }
 
@@ -335,7 +367,7 @@ namespace FinishLineDaytime
     {
         public static void Main(string[] args)
         {
-            FinishLine game = new FinishLine(1, "Player 1");
+            FinishLine game = new FinishLine(4, new string[] {"Cliff", "Jackie", "Arnell", "Isaac"});
             game.PlayGame();
         }
     }
